@@ -1,0 +1,182 @@
+//XOR with 127
+
+#include <stdio.h>
+#include<string.h>
+
+int main() {
+    char string[] = "Hello World!";
+    char plainText[100];
+    char cipher[100];
+    int len = strlen(string);
+
+    printf("The cipher text is: ");
+    for(int i = 0; i<len; i++){
+        cipher[i] = string[i] ^ 127;
+        printf("%02X ", (unsigned char)cipher[i]);
+    }
+    cipher[len] = '\0';
+    printf("\n");
+    for(int i = 0;i < len; i++){
+        plainText[i] = cipher[i] ^127;
+    }
+    plainText[len] = '\0';
+    printf("The plain text is: %s",plainText);
+}
+
+output: -
+
+The cipher text is: 37 1A 13 13 10 5F 28 10 0D 13 1B 5E 
+The plain text is: Hello World!
+
+AND with 127
+
+#include <stdio.h>
+#include<string.h>
+
+int main() {
+    char string[] = "Hello World!";
+    char plainText[100];
+    char cipher[100];
+    int len = strlen(string);
+
+    for(int i = 0; i<len; i++){
+        cipher[i] = string[i] & 127;
+    }
+    cipher[len] = '\0';
+    printf("The cipher text is: %s\n", cipher);
+    
+    for(int i = 0;i < len; i++){
+        plainText[i] = cipher[i] &127;
+    }
+    plainText[len] = '\0';
+    printf("The plain text is: %s",plainText);
+}
+
+output:-
+The cipher text is: Hello World!
+The plain text is: Hello World!
+
+Ceaser cipher
+
+import java.util.*;
+
+class CaesarCipher {
+
+    public String encryption(String text, int key) {
+        StringBuilder cipher = new StringBuilder();
+        key = key % 26;
+
+        for (char c : text.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                cipher.append((char) ((c - 'A' + key) % 26 + 'A'));
+            } 
+            else if (Character.isLowerCase(c)) {
+                cipher.append((char) ((c - 'a' + key) % 26 + 'a'));
+            } 
+            else {
+                cipher.append(c);
+            }
+        }
+        return cipher.toString();
+    }
+
+    public String decryption(String text, int key) {
+        StringBuilder plainText = new StringBuilder();
+        key = key % 26;
+
+        for (char c : text.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                plainText.append((char) ((c - 'A' - key + 26) % 26 + 'A'));
+            } 
+            else if (Character.isLowerCase(c)) {
+                plainText.append((char) ((c - 'a' - key + 26) % 26 + 'a'));
+            } 
+            else {
+                plainText.append(c);
+            }
+        }
+        return plainText.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        CaesarCipher obj = new CaesarCipher();
+
+        System.out.println("Enter the input string:");
+        String text = sc.nextLine();
+
+        System.out.println("Enter the key:");
+        int key = sc.nextInt();
+
+        String encryptedText = obj.encryption(text, key);
+
+        System.out.println("The cipher text is: " + encryptedText);
+
+        System.out.println("The plain text is: " +
+                obj.decryption(encryptedText, key));
+
+        sc.close();
+    }
+}
+
+output:-
+
+Enter the input string:
+Hello World!
+Enter the key:
+3
+The cipher text is: Khoor Zruog!
+The plain text is: Hello World!
+
+Diifie hellman
+
+import java.math.BigInteger;
+import java.util.*;
+
+class DiffieHellman{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.print("Enter the big integer q: ");
+        BigInteger q = sc.nextBigInteger();
+
+        System.out.print("Enter the primitive root of q -> a: ");
+        BigInteger a = sc.nextBigInteger();
+
+        System.out.print("Enter the private key of user A: ");
+        BigInteger XA = sc.nextBigInteger();
+
+        System.out.print("Enter the private key of user B: ");
+        BigInteger XB = sc.nextBigInteger();
+
+        BigInteger YA = a.modPow(XA,q);
+        BigInteger YB = a.modPow(XB,q);
+         System.out.println("The public key of user A: "+YA);
+         System.out.println("The public key of user B: "+YB);
+
+        BigInteger KA = YA.modPow(XB,q);
+        BigInteger KB = YB.modPow(XA,q);
+
+         System.out.println("The secret key of user A: "+KA);
+         System.out.println("The secret key of user B: "+KB);
+
+        if(KA.equals(KB)){
+            System.out.println("The secret keys of user A & B are exchangeed successfully!");
+        }else{
+            System.out.println("The key exchange failure!");
+        }
+        sc.close();
+    }
+}
+
+output
+
+Enter the big integer q: 23
+Enter the primitive root of q -> a: 5
+Enter the private key of user A: 6
+Enter the private key of user B: 15
+The public key of user A: 8
+The public key of user B: 19
+The secret key of user A: 2
+The secret key of user B: 2
+The secret keys of user A & B are exchangeed successfully!
